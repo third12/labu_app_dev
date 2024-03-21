@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#363aef"
+            android:id="@+id/backgroundImageView"/>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="40sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:id="@+id/title"
+            android:text="10 - Quiz"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_below="@id/title"
+            android:layout_marginTop="30dp"
+            android:background="@color/white"
+            android:id="@+id/infoView"
+            android:text="Take a picture of the required object"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:padding="10dp"
+            android:layout_below="@id/infoView"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:id="@+id/statusText"
+            android:text="Status"
+            />
+
+        <Button
+            android:id="@+id/beakerButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/statusText"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="Beaker" />
+        
+        <ImageView
+            android:id="@+id/beakerImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/x_mark"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="35dp"
+            android:layout_alignTop="@id/beakerButton"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:id="@+id/testTubeButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="25sp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/beakerButton"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="Test Tube" />
+
+        <ImageView
+            android:id="@+id/testTubeImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="35dp"
+            android:src="@drawable/x_mark"
+            android:layout_alignTop="@id/testTubeButton"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:id="@+id/funnelButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="25sp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/testTubeButton"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="Funnel" />
+
+        <ImageView
+            android:id="@+id/funnelImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="35dp"
+            android:src="@drawable/x_mark"
+            android:layout_alignTop="@id/funnelButton"
+            android:layout_alignParentEnd="true" />
+
+
+
+    </RelativeLayout>
+
+</ScrollView>

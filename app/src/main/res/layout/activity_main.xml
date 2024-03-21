@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#363aef"
+        android:id="@+id/backgroundImageView"/>
+
+    <TextureView
+        android:id="@+id/textureView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        />
+
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="#000"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:id="@+id/imageView"
+        android:layout_alignTop="@id/textureView"
+        android:layout_alignStart="@id/textureView"
+        />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:paddingVertical="10dp"
+        android:background="@color/white"
+        android:id="@+id/textView"
+        android:text="Unknown"
+        />
+
+    <ImageButton
+        android:id="@+id/myImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:layout_alignParentEnd="true"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <Button
+        android:id="@+id/captureButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="15dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textView"
+        android:text="Capture" />
+
+    <Button
+        android:id="@+id/infoButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_below="@id/captureButton"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:backgroundTint="#00cfea"
+        android:textColor="@color/black"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="15dp"
+        android:layout_centerHorizontal="true"
+        android:text="Info" />
+
+
+</RelativeLayout>
