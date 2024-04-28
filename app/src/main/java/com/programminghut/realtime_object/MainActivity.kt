@@ -21,7 +21,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.programminghut.realtime_object.ml.LabuModel
-import com.programminghut.realtime_object.ml.SsdMobilenetv11Metadata1
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -39,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         Color.BLUE, Color.GREEN, Color.RED, Color.CYAN, Color.GRAY, Color.BLACK,
         Color.DKGRAY, Color.MAGENTA, Color.YELLOW, Color.RED
     )
-    private val paint = Paint()
     private lateinit var imageProcessor: ImageProcessor
     private lateinit var bitmap: Bitmap
     private lateinit var imageView: ImageView
@@ -48,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cameraManager: CameraManager
     private lateinit var textureView: TextureView
     private lateinit var textView: TextView
-    private lateinit var model: SsdMobilenetv11Metadata1
     private lateinit var labuModel: LabuModel
     private lateinit var captureButton: Button
     private var captureTapped = false
@@ -96,9 +93,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         labels = FileUtil.loadLabels(this, "labels.txt")
-        imageProcessor = ImageProcessor.Builder().add(ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR)).build()
-    //  Error
-        model = SsdMobilenetv11Metadata1.newInstance(this)
         labuModel = LabuModel.newInstance(this)
         val handlerThread = HandlerThread("videoThread")
         handlerThread.start()
@@ -159,8 +153,6 @@ class MainActivity : AppCompatActivity() {
                     var maxPos = 0
                     var maxConfidence: Float = 0F
                     for (i in confidences.indices) {
-                        // > find greatest
-                        // < find least
                         if (confidences[i] > maxConfidence) {
                             maxConfidence = confidences[i]
                             maxPos = i
@@ -185,53 +177,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 bitmap = textureView.bitmap ?: return
-                var image = TensorImage.fromBitmap(bitmap)
-                image = imageProcessor.process(image)
                 hasResult = false
                 textView.text = ""
-//                val outputs = model.process(image)
-//                val locations = outputs.locationsAsTensorBuffer.floatArray
-//                val classes = outputs.classesAsTensorBuffer.floatArray
-//                val scores = outputs.scoresAsTensorBuffer.floatArray
-
                 val mutable = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-//                val canvas = Canvas(mutable)
-//
-//                val h = mutable.height
-//                val w = mutable.width
-//                paint.textSize = h / 15f
-//                paint.strokeWidth = h / 85f
-//
-//                for (index in scores.indices) {
-//                    val x = index * 4
-//                    if (scores[index] > 0.91) {
-//                        val labelIndex = classes[index].toInt()
-//                        if (labelIndex < labels.size) {
-//                            val label = labels[labelIndex]
-//                            textView.text = label
-//                            Log.d("", label)
-//                            paint.color = colors[index % colors.size]
-//                            paint.style = Paint.Style.STROKE
-//                            canvas.drawRect(
-//                                RectF(
-//                                    locations[x + 1] * w,
-//                                    locations[x] * h,
-//                                    locations[x + 3] * w,
-//                                    locations[x + 2] * h
-//                                ),
-//                                paint
-//                            )
-//                            paint.style = Paint.Style.FILL
-//                            canvas.drawText(
-//                                "$label ${scores[index]}",
-//                                locations[x + 1] * w,
-//                                locations[x] * h,
-//                                paint
-//                            )
-//                        }
-//                    }
-//                }
-
                 imageView.setImageBitmap(mutable)
             }
         }
@@ -241,7 +189,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        model.close()
         labuModel.close()
     }
 
