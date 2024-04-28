@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     private val imageSize = 224
     private var fromStart = false
     private var detectedLabel = ""
-
+    var hasResult = false;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -119,108 +119,119 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSurfaceTextureUpdated(p0: SurfaceTexture) {
                 if (captureTapped) {
+                    if(hasResult){
+                        return
+                    }
+
+                    val imageScaled = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, false)
+
+                    val inputFeature0 =
+                        TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
+                    val byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3)
+                    byteBuffer.order(ByteOrder.nativeOrder())
+
+                    val intValues = IntArray(imageSize * imageSize)
+                    imageScaled.getPixels(
+                        intValues,
+                        0,
+                        imageScaled.width,
+                        0,
+                        0,
+                        imageScaled.width,
+                        imageScaled.height
+                    )
+
+                    var pixel = 0
+                    for (i in 0 until imageSize) {
+                        for (j in 0 until imageSize) {
+                            val value = intValues[pixel++]
+                            byteBuffer.putFloat((value shr 16 and 0xFF) * (1f / 255f))
+                            byteBuffer.putFloat((value shr 8 and 0xFF) * (1f / 255f))
+                            byteBuffer.putFloat((value and 0xFF) * (1f / 255f))
+                        }
+                    }
+                    inputFeature0.loadBuffer(byteBuffer)
+
+                    val output = labuModel.process(inputFeature0)
+                    val outputFeature0 = output.outputFeature0AsTensorBuffer
+
+                    val confidences = outputFeature0.floatArray
+                    var maxPos = 0
+                    var maxConfidence: Float = 0F
+                    for (i in confidences.indices) {
+                        // > find greatest
+                        // < find least
+                        if (confidences[i] > maxConfidence) {
+                            maxConfidence = confidences[i]
+                            maxPos = i
+                        }
+                    }
+                    if (maxPos < labels.size) {
+                        val label = labels[maxPos]
+                        Log.d("", label)
+                        Log.d("conf", maxConfidence.toString())
+                        val confidence = maxConfidence.toDouble().round(2)
+                        val text = "$label $confidence"
+                        if (maxConfidence > 0.95) {
+                            detectedLabel = label
+                            textView.text = text
+                        }else{
+                            detectedLabel = "Not Applicable"
+                            textView.text = "Not Applicable"
+                            hasResult = true
+                        }
+                    }
                     return
                 }
 
                 bitmap = textureView.bitmap ?: return
                 var image = TensorImage.fromBitmap(bitmap)
                 image = imageProcessor.process(image)
-
-                val outputs = model.process(image)
-                val locations = outputs.locationsAsTensorBuffer.floatArray
-                val classes = outputs.classesAsTensorBuffer.floatArray
-                val scores = outputs.scoresAsTensorBuffer.floatArray
+                hasResult = false
+                textView.text = ""
+//                val outputs = model.process(image)
+//                val locations = outputs.locationsAsTensorBuffer.floatArray
+//                val classes = outputs.classesAsTensorBuffer.floatArray
+//                val scores = outputs.scoresAsTensorBuffer.floatArray
 
                 val mutable = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-                val canvas = Canvas(mutable)
+//                val canvas = Canvas(mutable)
+//
+//                val h = mutable.height
+//                val w = mutable.width
+//                paint.textSize = h / 15f
+//                paint.strokeWidth = h / 85f
+//
+//                for (index in scores.indices) {
+//                    val x = index * 4
+//                    if (scores[index] > 0.91) {
+//                        val labelIndex = classes[index].toInt()
+//                        if (labelIndex < labels.size) {
+//                            val label = labels[labelIndex]
+//                            textView.text = label
+//                            Log.d("", label)
+//                            paint.color = colors[index % colors.size]
+//                            paint.style = Paint.Style.STROKE
+//                            canvas.drawRect(
+//                                RectF(
+//                                    locations[x + 1] * w,
+//                                    locations[x] * h,
+//                                    locations[x + 3] * w,
+//                                    locations[x + 2] * h
+//                                ),
+//                                paint
+//                            )
+//                            paint.style = Paint.Style.FILL
+//                            canvas.drawText(
+//                                "$label ${scores[index]}",
+//                                locations[x + 1] * w,
+//                                locations[x] * h,
+//                                paint
+//                            )
+//                        }
+//                    }
+//                }
 
-                val h = mutable.height
-                val w = mutable.width
-                paint.textSize = h / 15f
-                paint.strokeWidth = h / 85f
-
-                for (index in scores.indices) {
-                    val x = index * 4
-                    if (scores[index] > 0.91) {
-                        val labelIndex = classes[index].toInt()
-                        if (labelIndex < labels.size) {
-                            val label = labels[labelIndex]
-                            textView.text = label
-                            Log.d("", label)
-                            paint.color = colors[index % colors.size]
-                            paint.style = Paint.Style.STROKE
-                            canvas.drawRect(
-                                RectF(
-                                    locations[x + 1] * w,
-                                    locations[x] * h,
-                                    locations[x + 3] * w,
-                                    locations[x + 2] * h
-                                ),
-                                paint
-                            )
-                            paint.style = Paint.Style.FILL
-                            canvas.drawText(
-                                "$label ${scores[index]}",
-                                locations[x + 1] * w,
-                                locations[x] * h,
-                                paint
-                            )
-                        }
-                    }
-                }
-
-                val imageScaled = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, false)
-
-                val inputFeature0 =
-                    TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
-                val byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3)
-                byteBuffer.order(ByteOrder.nativeOrder())
-
-                val intValues = IntArray(imageSize * imageSize)
-                imageScaled.getPixels(
-                    intValues,
-                    0,
-                    imageScaled.width,
-                    0,
-                    0,
-                    imageScaled.width,
-                    imageScaled.height
-                )
-
-                var pixel = 0
-                for (i in 0 until imageSize) {
-                    for (j in 0 until imageSize) {
-                        val value = intValues[pixel++]
-                        byteBuffer.putFloat((value shr 16 and 0xFF) * (1f / 255f))
-                        byteBuffer.putFloat((value shr 8 and 0xFF) * (1f / 255f))
-                        byteBuffer.putFloat((value and 0xFF) * (1f / 255f))
-                    }
-                }
-                inputFeature0.loadBuffer(byteBuffer)
-
-                val output = labuModel.process(inputFeature0)
-                val outputFeature0 = output.outputFeature0AsTensorBuffer
-
-                val confidences = outputFeature0.floatArray
-                var maxPos = 0
-                var maxConfidence: Float = 0F
-                for (i in confidences.indices) {
-                    if (confidences[i] > maxConfidence) {
-                        maxConfidence = confidences[i]
-                        maxPos = i
-                    }
-                }
-                if (maxPos < labels.size) {
-                    val label = labels[maxPos]
-                    Log.d("", label)
-                    Log.d("", maxConfidence.toString())
-                    val confidence = maxConfidence.toDouble().round(2)
-                    val text = "$label $confidence"
-                    if (maxConfidence > 0.91) {
-                        detectedLabel = label
-                        textView.text = text
-                    }
-                }
                 imageView.setImageBitmap(mutable)
             }
         }
