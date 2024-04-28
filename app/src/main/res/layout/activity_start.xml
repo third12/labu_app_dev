@@ -29,15 +29,29 @@
         android:id="@+id/startButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:textSize="25sp"
         android:layout_centerInParent="true"
-        android:textColor="@color/black"
+        android:layout_marginBottom="30dp"
         android:backgroundTint="@color/white"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
+        android:text="Identify Equipment"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/aboutButton"
+        android:layout_width="300dp"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@id/quizButton"
         android:layout_centerHorizontal="true"
-        android:text="Start" />
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/white"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="10dp"
+        android:text="Learn About Equipments"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/quizButton"
@@ -53,17 +67,4 @@
         android:layout_centerHorizontal="true"
         android:text="Take 10 - Quiz" />
 
-    <Button
-        android:id="@+id/aboutButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:textSize="25sp"
-        android:layout_below="@id/quizButton"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/white"
-        android:paddingHorizontal="30dp"
-        android:paddingVertical="10dp"
-        android:layout_centerHorizontal="true"
-        android:text="About" />
 </RelativeLayout>

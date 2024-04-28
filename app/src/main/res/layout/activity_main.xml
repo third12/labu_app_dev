@@ -71,14 +71,13 @@
         android:id="@+id/infoButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
         android:layout_below="@id/captureButton"
         android:layout_marginTop="20dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:backgroundTint="#00cfea"
         android:textColor="@color/black"
         android:paddingHorizontal="30dp"
-        android:paddingVertical="15dp"
+       android:padding="18dp"
         android:layout_centerHorizontal="true"
         android:text="Info" />
 

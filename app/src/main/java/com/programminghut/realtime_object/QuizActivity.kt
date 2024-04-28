@@ -14,9 +14,18 @@ import androidx.core.content.ContextCompat
 class QuizActivity : AppCompatActivity() {
 
     var selectedItem = ""
-    lateinit var beakerImageView: ImageView
-    lateinit var testTubeImageView: ImageView
-    lateinit var funnelImageView: ImageView
+    private lateinit var beakerImageView: ImageView
+    private lateinit var testTubeImageView: ImageView
+    private lateinit var bunsenBurnerImageView: ImageView
+    private lateinit var dropperImageView: ImageView
+    private lateinit var forcepsImageView: ImageView
+    private lateinit var graduatedCylinderImageView: ImageView
+    private lateinit var magnifyingGlassImageView: ImageView
+    private lateinit var microscopeImageView: ImageView
+    private lateinit var spatulaImageView: ImageView
+    private lateinit var funnelImageView: ImageView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
@@ -24,8 +33,17 @@ class QuizActivity : AppCompatActivity() {
         beakerImageView = findViewById(R.id.beakerImageView)
         testTubeImageView = findViewById(R.id.testTubeImageView)
         funnelImageView = findViewById(R.id.funnelImageView)
+        beakerImageView = findViewById(R.id.beakerImageView);
+        testTubeImageView = findViewById(R.id.testTubeImageView);
+        bunsenBurnerImageView = findViewById(R.id.bunsenBurnerImageView);
+        dropperImageView = findViewById(R.id.dropperImageView);
+        forcepsImageView = findViewById(R.id.forcepsImageView);
+        graduatedCylinderImageView = findViewById(R.id.graduatedCylinderImageView);
+        magnifyingGlassImageView = findViewById(R.id.magnifyingGlassImageView);
+        microscopeImageView = findViewById(R.id.microscopeImageView);
+        spatulaImageView = findViewById(R.id.spatulaImageView);
 
-        val beakerButton: Button = findViewById(R.id.beakerButton)
+          val beakerButton: Button = findViewById(R.id.beakerButton)
         beakerButton.setOnClickListener {
             selectedItem = QuizItems.BEAKER.itemName
             val intent = Intent(this, MainActivity::class.java)
@@ -45,6 +63,58 @@ class QuizActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             cameraResultLauncher.launch(intent)
         }
+
+
+
+        val forcepsButton: Button = findViewById(R.id.forcepsButton)
+        forcepsButton.setOnClickListener {
+            selectedItem = QuizItems.FORCEPS.itemName
+            val intent = Intent(this, MainActivity::class.java)
+            cameraResultLauncher.launch(intent)
+        }
+
+
+
+        val graduatedCylinderButton: Button = findViewById(R.id.graduatedCylinderButton)
+        graduatedCylinderButton.setOnClickListener {
+            selectedItem = QuizItems.GRADUATED_CYLINDER.itemName
+            val intent = Intent(this, MainActivity::class.java)
+            cameraResultLauncher.launch(intent)
+        }
+
+
+        val magnifyingGlassButton: Button = findViewById(R.id.magnifyingGlassButton)
+        magnifyingGlassButton.setOnClickListener {
+            selectedItem = QuizItems.MAGNIFYING_GLASS.itemName
+            val intent = Intent(this, MainActivity::class.java)
+            cameraResultLauncher.launch(intent)
+        }
+
+        val dropperButton: Button = findViewById(R.id.dropperButton)
+        dropperButton.setOnClickListener {
+            selectedItem = QuizItems.DROPPER.itemName
+            val intent = Intent(this, MainActivity::class.java)
+            cameraResultLauncher.launch(intent)
+        }
+
+
+
+
+
+        val microscopeButton: Button = findViewById(R.id.microscopeButton)
+        microscopeButton.setOnClickListener {
+            selectedItem = QuizItems.MICROSCOPE.itemName
+            val intent = Intent(this, MainActivity::class.java)
+            cameraResultLauncher.launch(intent)
+        }
+
+        val spatulaButton: Button = findViewById(R.id.spatulaButton)
+        spatulaButton.setOnClickListener {
+            selectedItem = QuizItems.SPATULA.itemName
+            val intent = Intent(this, MainActivity::class.java)
+            cameraResultLauncher.launch(intent)
+        }
+
     }
 
     fun checkResult(isCorrect: Boolean){
@@ -60,28 +130,28 @@ class QuizActivity : AppCompatActivity() {
                 beakerImageView.setImageDrawable(drawable)
             }
             "Bunsen Burner" -> {
-                beakerImageView.setImageDrawable(drawable)
+                bunsenBurnerImageView.setImageDrawable(drawable)
             }
             "Dropper" -> {
-                beakerImageView.setImageDrawable(drawable)
+                dropperImageView.setImageDrawable(drawable)
             }
             "Forceps" -> {
-                beakerImageView.setImageDrawable(drawable)
+                forcepsImageView.setImageDrawable(drawable)
             }
             "Funnel" -> {
                 funnelImageView.setImageDrawable(drawable)
             }
             "Graduated Cylinder" -> {
-                beakerImageView.setImageDrawable(drawable)
+                graduatedCylinderImageView.setImageDrawable(drawable)
             }
             "Magnifying Glass" -> {
-                beakerImageView.setImageDrawable(drawable)
+                magnifyingGlassImageView.setImageDrawable(drawable)
             }
             "Microscope" -> {
-                beakerImageView.setImageDrawable(drawable)
+                microscopeImageView.setImageDrawable(drawable)
             }
             "Spatula" -> {
-                beakerImageView.setImageDrawable(drawable)
+              spatulaImageView.setImageDrawable(drawable)
             }
             "Test Tube" -> {
                 testTubeImageView.setImageDrawable(drawable)
