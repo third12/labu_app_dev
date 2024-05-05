@@ -1,10 +1,10 @@
-0 Beaker
-1 Test Tube
-2 Bunsen Burne...
-3 Dropper
-4 Forceps
-5 Graduated Cy...
-6 Magnifying G...
-7 Microscope
-8 Spatula
-9 Funnel
+Beaker
+Test Tube
+Bunsen Burner
+Dropper
+Forceps
+Graduated Cylinder
+Magnifying Glass
+Microscope
+Spatula
+Funnel

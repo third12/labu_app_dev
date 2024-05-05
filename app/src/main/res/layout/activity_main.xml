@@ -81,5 +81,20 @@
         android:layout_centerHorizontal="true"
         android:text="Info" />
 
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/captureButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:backgroundTint="#00cfea"
+        android:padding="18dp"
+        android:paddingHorizontal="30dp"
+        android:text="Confirm"
+        android:textColor="@color/black"
+        />
+
 
 </RelativeLayout>

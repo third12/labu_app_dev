@@ -14,13 +14,17 @@ import android.os.HandlerThread
 import android.util.Log
 import android.view.Surface
 import android.view.TextureView
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.programminghut.realtime_object.ml.LabuModel
+import com.programminghut.realtime_object.ml.OlabuModel147
+
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -48,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textView: TextView
     private lateinit var labuModel: LabuModel
     private lateinit var captureButton: Button
+    private lateinit var confirmButton: Button
     private var captureTapped = false
     private val imageSize = 224
     private var fromStart = false
@@ -61,17 +66,23 @@ class MainActivity : AppCompatActivity() {
         fromStart = intent.getBooleanExtra("fromStart", false)
 
         captureButton = findViewById(R.id.captureButton)
+        confirmButton = findViewById(R.id.confirmButton)
         val myImageButton: ImageButton = findViewById(R.id.myImageButton)
         val infoButton: Button = findViewById(R.id.infoButton)
-
-        captureButton.setOnClickListener {
-            BitmapHolder.bitmap = bitmap
-            if (!fromStart) {
+        if(!fromStart){
+            confirmButton.setVisibility(View.VISIBLE)
+            confirmButton.setOnClickListener {
                 val resultIntent = Intent()
                 resultIntent.putExtra("detectedLabel", detectedLabel)
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
             }
+        }else{
+            confirmButton.setVisibility(View.GONE)
+        }
+
+        captureButton.setOnClickListener {
+            BitmapHolder.bitmap = bitmap
 
             captureTapped = !captureTapped
 
@@ -87,6 +98,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         infoButton.setOnClickListener {
+            if(detectedLabel == "" ){
+                Toast.makeText(this, "Not Applicable", Toast.LENGTH_SHORT)
+                return@setOnClickListener
+            }
+
             val intent = Intent(this, InfoActivity::class.java)
             intent.putExtra("detectedLabel", detectedLabel)
             startActivity(intent)
@@ -166,9 +182,10 @@ class MainActivity : AppCompatActivity() {
                         val text = "$label $confidence"
                         if (maxConfidence > 0.95) {
                             detectedLabel = label
+                            Log.d("detectedLabel", label)
                             textView.text = text
                         }else{
-                            detectedLabel = "Not Applicable"
+                            detectedLabel = ""
                             textView.text = "Not Applicable"
                             hasResult = true
                         }
